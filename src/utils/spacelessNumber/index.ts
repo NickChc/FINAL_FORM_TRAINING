@@ -1,0 +1,1 @@
+export { spacelessNumber } from "./spacelessNumber";

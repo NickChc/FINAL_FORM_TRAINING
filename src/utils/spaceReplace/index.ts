@@ -1,0 +1,1 @@
+export { spaceReplace } from "./spacereplace";
