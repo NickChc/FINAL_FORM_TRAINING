@@ -20,12 +20,17 @@ export function Modal({
 
   if (!open) return;
 
+  // WROK HERE
   return (
     <div
-      className="absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center backdrop-blur  "
-      onClick={() => setOpen(false)}
+      className="absolute top-0 right-0 w-full h-dvh flex items-center justify-center backdrop-blur  "
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        if (!e.currentTarget.contains(e.target as HTMLElement)) {
+          setOpen(false);
+        }
+      }}
     >
-      <span className="flex items-center justify-center w-full min-h-full">
+      <span className="flex items-center justify-center w-full overflow-y-scroll h-full">
         {children}
       </span>
     </div>

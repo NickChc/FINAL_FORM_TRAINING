@@ -11,7 +11,7 @@ export function PublicLayout() {
     <div className="w-full min-h-dvh relative">
       <Header />
       <Modal open={openRegister} setOpen={() => setOpenRegister(!openRegister)}>
-        <RegisterForm />
+        <RegisterForm setModal={setOpenRegister} />
       </Modal>
       <Outlet />
     </div>
