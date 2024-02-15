@@ -4,13 +4,16 @@ import { useGlobalContext } from "@src/Providers/GlobalProvider";
 import { TAuthStage_Enum, useAuthContext } from "@src/Providers/AuthProvider";
 
 export function Header() {
-  const { setOpenRegister } = useGlobalContext();
+  const { setOpenRegister, setOpenLogIn } = useGlobalContext();
   const { authStage, logOut } = useAuthContext();
 
   const authorizedView = useMemo(() => {
     if (authStage === TAuthStage_Enum.AUTHORIZED) {
       return (
-        <button className="p-[.8rem] cursor-pointer outline-none " onClick={logOut}>
+        <button
+          className="p-[.8rem] cursor-pointer outline-none "
+          onClick={logOut}
+        >
           LOG OUT
         </button>
       );
@@ -25,7 +28,10 @@ export function Header() {
           >
             REGISTER
           </button>
-          <button className="whitespace-nowrap outline-none p-[.5rem] text-[.6rem] sm:text-[.9rem] cursor-pointer border-solid border border-black rounded-lg hover:border-[blue] hover:text-[blue] duration-100 ">
+          <button
+            className="whitespace-nowrap outline-none p-[.5rem] text-[.6rem] sm:text-[.9rem] cursor-pointer border-solid border border-black rounded-lg hover:border-[blue] hover:text-[blue] duration-100 "
+            onClick={() => setOpenLogIn(true)}
+          >
             LOG IN
           </button>
         </>

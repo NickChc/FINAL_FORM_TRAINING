@@ -10,6 +10,11 @@ export interface TUserData {
 }
 
 
+export interface TLogInUser {
+    email: string;
+    password: string;
+}
+
 export interface TUserTokens {
     access_token: string;
     refresh_token: string;

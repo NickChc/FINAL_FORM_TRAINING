@@ -11,6 +11,7 @@ export function Modal({
   setOpen,
 }: PropsWithChildren<ModalProps>) {
   useEffect(() => {
+    window.scrollTo({ top: 0 });
     if (open) {
       document.body.style.overflowY = "hidden";
     } else {
@@ -27,9 +28,7 @@ export function Modal({
         setOpen(false);
       }}
     >
-      <span
-        className="flex items-center justify-center w-full overflow-y-scroll h-full"
-      >
+      <span className="flex items-center justify-center w-full overflow-y-scroll h-full">
         {children}
       </span>
     </div>

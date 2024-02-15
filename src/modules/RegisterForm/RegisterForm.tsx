@@ -49,6 +49,7 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
       const response = await publicAxios.post("/auth/register", values);
       console.log(response);
       setAuthData(response.data as TUserTokens);
+      if (setModal) setModal(false);
       setRegisterValues({
         first_name: "",
         last_name: "",
@@ -81,7 +82,7 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
       {setModal && (
         <span className="absolute top-1 right-1 ">
           <CloseBtnIcon
-            className="text-[1.5rem] cursor-pointer "
+            className="text-[1.5rem] cursor-pointer hover:text-[blue] duration-100 "
             onClick={() => setModal(false)}
           />
         </span>
