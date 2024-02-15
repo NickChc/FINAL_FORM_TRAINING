@@ -8,3 +8,9 @@ export interface TUserData {
     password: string;
     "repeat-password": string;
 }
+
+
+export interface TUserTokens {
+    access_token: string;
+    refresh_token: string;
+}

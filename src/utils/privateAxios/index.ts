@@ -1,0 +1,1 @@
+export { privateAxios, setPrivateAccessToken } from "./privateAxios";

@@ -1,15 +1,19 @@
 import { useState } from "react";
-import { TUserData } from "@src/@types/requestTypes";
+import { TUserData, TUserTokens } from "@src/@types/requestTypes";
 import { FormInput } from "@src/components/FormInput";
 import { spacelessNumber } from "@src/utils/spacelessNumber";
 import { spaceReplace } from "@src/utils/spaceReplace";
 import { CloseBtnIcon } from "@src/assets/icons/closeBtnIcon";
+import { useAuthContext } from "@src/Providers/AuthProvider";
+import { publicAxios } from "@src/utils/publicAxios";
 
 interface RegisterFormProps {
   setModal?: (arg: boolean) => void;
 }
 
 export function RegisterForm({ setModal }: RegisterFormProps) {
+  const [authLoading, setAuthLoading] = useState<boolean>(false);
+
   const [registerValues, setRegisterValues] = useState<TUserData>({
     first_name: "",
     last_name: "",
@@ -19,8 +23,10 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
     "repeat-password": "",
   });
 
+  const { setAuthData } = useAuthContext();
+
   function inputChange(e: React.ChangeEvent<HTMLFormElement>) {
-    console.log(spacelessNumber(e.target.value));
+    spacelessNumber(e.target.value);
 
     setRegisterValues((prev) => {
       if (
@@ -37,8 +43,25 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
     });
   }
 
-  function onFinish(values: TUserData) {
-    console.log(values);
+  async function onFinish(values: TUserData) {
+    try {
+      setAuthLoading(true);
+      const response = await publicAxios.post("/auth/register", values);
+      console.log(response);
+      setAuthData(response.data as TUserTokens);
+      setRegisterValues({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        password: "",
+        "repeat-password": "",
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    } finally {
+      setAuthLoading(false);
+    }
   }
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -55,12 +78,14 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
         e.stopPropagation();
       }}
     >
-      {setModal && (<span className="absolute top-1 right-1 ">
-        <CloseBtnIcon
-          className="text-[1.5rem] cursor-pointer "
-          onClick={() => setModal(false)}
-        />
-      </span>)}
+      {setModal && (
+        <span className="absolute top-1 right-1 ">
+          <CloseBtnIcon
+            className="text-[1.5rem] cursor-pointer "
+            onClick={() => setModal(false)}
+          />
+        </span>
+      )}
       <div className="flex w-[80%] h-[75%] lg:h-full flex-col items-center justify-between gap-y-3  sm:gap-y-6 mt-6 sm:mt-9 mb-3 overflow-y-scroll sm:overflow-y-hidden">
         <FormInput
           name="first_name"
@@ -107,7 +132,7 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
         />
       </div>
       <button className="p-[.8rem] text-[.75rem] md:text-[1rem] xl:text-[1.2rem] w-[80%] border-solid border border-[blue] text-[blue] cursor-pointer hover:outline hover:outline-1 hover:outline-[blue] hover:font-semibold  rounded-xl ">
-        REGISTER
+        {authLoading ? "LOADING..." : "REGISTER"}
       </button>
     </form>
   );
