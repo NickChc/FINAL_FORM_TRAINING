@@ -51,7 +51,7 @@ export function RegisterForm({ setModal }: RegisterFormProps) {
     <form
       onSubmit={onSubmit}
       className="w-[90%] md:w-[70%] h-[90dvh] gap-y-6 border-solid border border-black flex flex-col items-center justify-between sm:pt-6 pb-6 lg:pb-14 bg-[grey] relative "
-      onClick={(e: React.MouseEvent) => {
+      onMouseDown={(e: React.MouseEvent) => {
         e.stopPropagation();
       }}
     >
