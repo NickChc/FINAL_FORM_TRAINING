@@ -8,7 +8,7 @@ interface FormInputProps {
   onFocus?: (e: any) => void;
   label?: string;
   error?: string;
-  type?: string;
+  // type?: string;
   isPassword?: boolean;
 }
 
@@ -33,7 +33,11 @@ export function FormInput({
           value={value}
           onChange={onChange}
           onFocus={onFocus}
-          className={`p-[.6rem] outline-1 focus:outline-2 outline-[blue] text-[.8rem] sm:text-[1rem] lg:text-[1.4rem] border-solid border border-[blue] rounded-xl `}
+          className={`p-[.6rem] outline-1 focus:outline-2 text-[.8rem] sm:text-[1rem] lg:text-[1.4rem] border-solid border rounded-xl ${
+            error !== ""
+              ? "outline-[red] border-[red]"
+              : "outline-[blue] border-[blue]"
+          } `}
         />
         {isPassword && (
           <span
@@ -46,7 +50,7 @@ export function FormInput({
           </span>
         )}
       </span>
-      <p>{label}</p>
+      {error ? <p className="text-red-700 ">{error}</p> : <p>{label}</p>}
     </label>
   );
 }

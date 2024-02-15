@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseBtnIcon } from "@src/assets/icons/closeBtnIcon";
 import { FormInput } from "@src/components/FormInput";
 import { TLogInUser, TUserTokens } from "@src/@types/requestTypes";
 import { publicAxios } from "@src/utils/publicAxios";
 import { useAuthContext } from "@src/Providers/AuthProvider";
+import { useValidateLogIn } from ".";
 
 interface LogInFormProps {
   setModal?: (arg: boolean) => void;
@@ -19,11 +20,15 @@ export function LogInForm({ setModal }: LogInFormProps) {
 
   const { setAuthData } = useAuthContext();
 
+  const { formErrors, validateLogIn, isValid, setIsValid } = useValidateLogIn();
+
   function inputChange(e: React.ChangeEvent<HTMLFormElement>) {
     setLogInValues((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+
+    setIsValid(true);
   }
 
   async function onFinish(values: TLogInUser) {
@@ -47,6 +52,11 @@ export function LogInForm({ setModal }: LogInFormProps) {
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    validateLogIn(logInValues);
+    if (!isValid) return;
+
+    console.table(formErrors);
+
     onFinish(logInValues);
   }
 
@@ -68,19 +78,28 @@ export function LogInForm({ setModal }: LogInFormProps) {
       )}
       <div className="flex w-[80%] h-[75%] lg:h-full flex-col items-center  gap-y-3  sm:gap-y-6 mt-6 sm:mt-9 mb-3 overflow-y-scroll sm:overflow-y-hidden pt-1 ">
         <FormInput
+          onFocus={() => (formErrors.email = "")}
+          error={formErrors.email}
           label="EMAIL"
           name="email"
           value={logInValues.email}
           onChange={inputChange}
         />
         <FormInput
+          isPassword={true}
+          onFocus={() => (formErrors.password = "")}
+          error={formErrors.password}
           onChange={inputChange}
           label="PASSWORD"
           name="password"
           value={logInValues.password}
         />
       </div>
-      <button className="p-[.8rem] text-[.75rem] md:text-[1rem] xl:text-[1.2rem] w-[80%] border-solid border border-[blue] text-[blue] cursor-pointer hover:outline hover:outline-1 hover:outline-[blue] hover:font-semibold  rounded-xl ">
+      <button
+        type="submit"
+        className="p-[.8rem] text-[.75rem] md:text-[1rem] xl:text-[1.2rem] w-[80%] border-solid border border-[blue] text-[blue] cursor-pointer hover:outline hover:outline-1 hover:outline-[blue] hover:font-semibold  rounded-xl "
+        onClick={() => validateLogIn(logInValues)}
+      >
         {logInLoading ? "LOGGING IN..." : "LOG IN"}
       </button>
     </form>
