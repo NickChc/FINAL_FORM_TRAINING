@@ -13,11 +13,35 @@
   font-family: sans-serif;
 }
 
-
-
-
 @layer utilities {
   .backdrop-blur {
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+  }
+
+  @keyframes popUp {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  .pop-up {
+    animation: popUp 0.3s ease;
+  }
+
+  .gradient-slate500-grey {
+    background: linear-gradient(
+      to bottom left,
+      transparent,
+      transparent 75%,
+      #65737e 60%
+    );
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 50px;
   }
 }

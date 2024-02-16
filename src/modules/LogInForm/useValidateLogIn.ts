@@ -16,11 +16,18 @@ export function useValidateLogIn() {
     } else if (!emailRegex.test(loginUser.email)) {
       errors.email = "INVALID EMAIL ADDRESS!";
       setIsValid(false);
+    } else {
+      errors.email = "";
     }
 
     if (loginUser.password === "") {
       errors.password = "PASSWORD IS MISSING!";
       setIsValid(false);
+    } else if (loginUser.password.length < 8) {
+      errors.password = "YOUR PASSWORD IS 8 CHARACTERS OR LONGER!";
+      setIsValid(false);
+    } else {
+      errors.password = "";
     }
 
     setFormErrors(errors);
