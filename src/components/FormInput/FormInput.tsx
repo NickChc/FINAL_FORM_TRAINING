@@ -43,7 +43,7 @@ export function FormInput({
         />
         {isPassword && (
           <span
-            className="absolute top-[50%] translate-y-[-50%] right-3 cursor-pointer text-[1rem] lg:text-[1.5rem] flex items-center justify-center"
+            className="absolute top-[50%] translate-y-[-50%] right-3 cursor-pointer text-[1rem] lg:text-[1.3rem] flex items-center justify-center"
             onClick={() => {
               setShowPassword(!showPassword);
             }}
